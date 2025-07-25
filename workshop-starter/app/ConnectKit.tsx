@@ -8,7 +8,7 @@ import { authWalletConnectors } from "@particle-network/connectkit/auth";
 import { EntryPosition, wallet } from "@particle-network/connectkit/wallet";
 // embedded wallet end
 // evm start
-import { base } from "@particle-network/connectkit/chains";
+import { berachain } from "@particle-network/connectkit/chains";
 import { evmWalletConnectors } from "@particle-network/connectkit/evm";
 // evm end
 
@@ -55,7 +55,7 @@ const config = createConfig({
     }),
     // embedded wallet end
   ],
-  chains: [base],
+  chains: [berachain],
 });
 
 // Wrap your application with this component.

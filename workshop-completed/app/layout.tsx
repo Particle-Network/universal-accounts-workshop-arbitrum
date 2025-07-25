@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+
 import "./globals.css";
 
 // Import the ConnectKitProvider configuration (exported as ParticleConnectKit)
 import { ParticleConnectkit } from "./ConnectKit";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Particle Connect",
@@ -19,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         <ParticleConnectkit>{children}</ParticleConnectkit>
       </body>
     </html>
