@@ -101,7 +101,7 @@ const App = () => {
             {
               to: CONTRACT_ADDRESS,
               data: contractInterface.encodeFunctionData("mint"),
-              value: "0x0",
+              //  value: "0x0",
             },
           ],
         });
@@ -261,14 +261,14 @@ const App = () => {
                 </h3>
                 <div className="bg-[#2A2A4A] rounded-lg p-5 border border-[#4A4A6A] shadow-inner flex flex-col items-center gap-4">
                   <p className="text-gray-300 text-sm text-center">
-                    Ready to send a transaction?
+                    Mint an NFT on Berachain holding tokens anywhere else
                   </p>
                   <button
                     onClick={runTransaction}
                     disabled={isLoading}
                     className="w-full py-3 px-6 rounded-lg font-bold text-lg text-gray-900 bg-gradient-to-r from-[#FACC15] to-[#EAB308] hover:from-[#EAB308] hover:to-[#FACC15] transition-all duration-300 shadow-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {isLoading ? "Sending..." : "Send Transaction"}
+                    {isLoading ? "Minting..." : "Mint NFT"}
                   </button>
                   {txResult && (
                     <div className="mt-4 text-center text-sm">
