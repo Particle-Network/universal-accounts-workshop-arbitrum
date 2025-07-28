@@ -1,5 +1,18 @@
 # Workshop: Building with Universal Accounts on Berachain
 
+This workshop demonstrates how to build a simple decentralized application (dApp) on Berachain that allows users to mint an NFT using Particle Network's Universal Accounts.
+
+## Features
+
+- Connect to the application.
+- View your Universal Account addresses (EVM and Solana).
+- See your aggregated balance across all supported chains.
+- Mint a `BeraNFT` on the Berachain testnet with a single click.
+
+## How it works
+
+The application leverages Particle Network's Universal Account SDK to create and manage smart accounts for users. When a user wants to mint an NFT, the dApp creates a transaction that calls the `mint` function on the `BeraNFT` smart contract deployed on Berachain. The user can pay for the gas fees on any chain where they have funds, and the Universal Account handles the cross-chain messaging and execution.
+
 In this workshop, you'll learn how to integrate Particle Network's Universal Accounts into a Next.js application to create seamless, cross-chain experiences on Berachain.
 
 We will start with a basic application that uses Particle's ConnectKit for wallet connection and progressively add Universal Account features to fetch balances, display smart account addresses, and send a transaction.
@@ -134,7 +147,7 @@ Once the Universal Account is initialized, we can fetch the user's smart account
 
 ### Step 2.4: Send a Transaction
 
-Let's implement the `handleDeposit` function to send a transaction on Berachain using the Universal Account.
+Let's implement the `runTransaction` function to mint an NFT on Berachain using the Universal Account.
 
 ```tsx
 const App = () => {
@@ -142,29 +155,27 @@ const App = () => {
   const walletClient = primaryWallet?.getWalletClient();
   // ... other hooks
 
-  const handleDeposit = async () => {
+  const runTransaction = async () => {
     if (!universalAccountInstance || !walletClient) return;
     setIsLoading(true);
     setTxResult(null);
 
-    const CONTRACT_ADDRESS = "0xce7007e421A84b3f73fb6A230b2E6298f0bbbcbe"; // Workshop contract
+    const CONTRACT_ADDRESS = "0xA9c7C2BCEd22D1d47111610Af21a53B6D1e69eeD"; // NFT contract on Berachain
 
     try {
-      const contractInterface = new Interface(["function deposit(string message) external payable"]);
-      const depositAmount = "0.01"; // 0.01 BERA
-      const depositMessage = "gm from universal account";
+      const contractInterface = new Interface(["function mint() external"]);
 
       const transaction = await universalAccountInstance.createUniversalTransaction({
         chainId: CHAIN_ID.BERACHAIN_MAINNET,
         transactions: [{
           to: CONTRACT_ADDRESS,
-          data: contractInterface.encodeFunctionData("deposit", [depositMessage]),
-          value: toBeHex(parseEther(depositAmount)),
+          data: contractInterface.encodeFunctionData("mint"),
         }],
       });
 
       const signature = await walletClient.signMessage({ account: address as `0x${string}`, message: { raw: transaction.rootHash } });
       const result = await universalAccountInstance.sendTransaction(transaction, signature);
+
       setTxResult(`https://universalx.app/activity/details?id=${result.transactionId}`);
     } catch (error) {
       console.error("Transaction failed:", error);
