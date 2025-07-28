@@ -4,6 +4,7 @@ import {
   ConnectButton,
   useAccount,
   useWallets,
+  useDisconnect,
 } from "@particle-network/connectkit";
 import { useState, useEffect } from "react";
 // Universal Accounts imports
@@ -12,14 +13,14 @@ import {
   type IAssetsResponse,
   CHAIN_ID,
 } from "@particle-network/universal-account-sdk";
-import { Interface, parseEther, toBeHex } from "ethers";
+import { Interface } from "ethers";
 
 const App = () => {
   // Get wallet from Particle Connect
   const [primaryWallet] = useWallets();
   const walletClient = primaryWallet?.getWalletClient();
   const { address, isConnected } = useAccount();
-
+  const { disconnect } = useDisconnect();
   const [universalAccountInstance, setUniversalAccountInstance] =
     useState<UniversalAccount | null>(null);
   const [accountInfo, setAccountInfo] = useState<{
@@ -43,10 +44,11 @@ const App = () => {
         projectClientKey: process.env.NEXT_PUBLIC_CLIENT_KEY!,
         projectAppUuid: process.env.NEXT_PUBLIC_APP_ID!,
         ownerAddress: address,
+        //rpcUrl: "https://universal-rpc-staging.particle.network",
         // If not set it will use auto-slippage
         tradeConfig: {
           slippageBps: 100, // 1% slippage tolerance
-          universalGas: true, // Prioritize PARTI token to pay for gas
+          universalGas: false, // Prioritize PARTI token to pay for gas
           //usePrimaryTokens: [SUPPORTED_TOKEN_TYPE.SOL], // Specify token to use as source (only for swaps)
         },
       });
@@ -81,20 +83,15 @@ const App = () => {
   const [txResult, setTxResult] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleDeposit = async () => {
+  const runTransaction = async () => {
     if (!universalAccountInstance) return;
     setIsLoading(true);
     setTxResult(null);
 
-    const CONTRACT_ADDRESS = "0xce7007e421A84b3f73fb6A230b2E6298f0bbbcbe"; // your contract
+    const CONTRACT_ADDRESS = "0xA9c7C2BCEd22D1d47111610Af21a53B6D1e69eeD"; // NFT contract on Berachain
 
     try {
-      const contractInterface = new Interface([
-        "function deposit(string message) external payable",
-      ]);
-
-      const depositAmount = "0.1"; // 0.1 BERA
-      const depositMessage = "gm from universal account";
+      const contractInterface = new Interface(["function mint() external"]);
 
       const transaction =
         await universalAccountInstance.createUniversalTransaction({
@@ -103,10 +100,8 @@ const App = () => {
           transactions: [
             {
               to: CONTRACT_ADDRESS,
-              data: contractInterface.encodeFunctionData("deposit", [
-                depositMessage,
-              ]),
-              value: toBeHex(parseEther(depositAmount)),
+              data: contractInterface.encodeFunctionData("mint"),
+              value: "0x0",
             },
           ],
         });
@@ -225,6 +220,16 @@ const App = () => {
                   </div>
                 )}
               </div>
+              <div className="flex items-center gap-4">
+                {isConnected && (
+                  <button
+                    onClick={() => disconnect()}
+                    className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
+                  >
+                    Disconnect
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Right Column: Financial Overview & Actions */}
@@ -259,7 +264,7 @@ const App = () => {
                     Ready to send a transaction?
                   </p>
                   <button
-                    onClick={handleDeposit}
+                    onClick={runTransaction}
                     disabled={isLoading}
                     className="w-full py-3 px-6 rounded-lg font-bold text-lg text-gray-900 bg-gradient-to-r from-[#FACC15] to-[#EAB308] hover:from-[#EAB308] hover:to-[#FACC15] transition-all duration-300 shadow-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
