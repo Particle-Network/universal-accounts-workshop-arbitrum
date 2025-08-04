@@ -1,19 +1,19 @@
-# Workshop: Building with Universal Accounts on Berachain
+# Workshop: Building with Universal Accounts on Arbitrum
 
-This workshop demonstrates how to build a simple decentralized application (dApp) on Berachain that allows users to mint an NFT using Particle Network's Universal Accounts.
+This workshop demonstrates how to build a simple decentralized application (dApp) on Arbitrum that allows users to mint an NFT using Particle Network's Universal Accounts.
 
 ## Features
 
 - Connect to the application.
 - View your Universal Account addresses (EVM and Solana).
 - See your aggregated balance across all supported chains.
-- Mint a `BeraNFT` on the Berachain testnet with a single click.
+- Mint a `ARBnft` on the Arbitrum testnet with a single click.
 
 ## How it works
 
-The application leverages Particle Network's Universal Account SDK to create and manage smart accounts for users. When a user wants to mint an NFT, the dApp creates a transaction that calls the `mint` function on the `BeraNFT` smart contract deployed on Berachain. The user can pay for the gas fees on any chain where they have funds, and the Universal Account handles the cross-chain messaging and execution.
+The application leverages Particle Network's Universal Account SDK to create and manage smart accounts for users. When a user wants to mint an NFT, the dApp creates a transaction that calls the `mint` function on the `ARBnft` smart contract deployed on Arbitrum. The user can pay for the gas fees on any chain where they have funds, and the Universal Account handles the cross-chain messaging and execution.
 
-In this workshop, you'll learn how to integrate Particle Network's Universal Accounts into a Next.js application to create seamless, cross-chain experiences on Berachain.
+In this workshop, you'll learn how to integrate Particle Network's Universal Accounts into a Next.js application to create seamless, cross-chain experiences on Arbitrum.
 
 We will start with a basic application that uses Particle's ConnectKit for wallet connection and progressively add Universal Account features to fetch balances, display smart account addresses, and send a transaction.
 
@@ -160,13 +160,13 @@ const App = () => {
     setIsLoading(true);
     setTxResult(null);
 
-    const CONTRACT_ADDRESS = "0xA9c7C2BCEd22D1d47111610Af21a53B6D1e69eeD"; // NFT contract on Berachain
+    const CONTRACT_ADDRESS = "0x702E0755450aFb6A72DbE3cAD1fb47BaF3AC525C"; // NFT contract on Arbitrum
 
     try {
       const contractInterface = new Interface(["function mint() external"]);
 
       const transaction = await universalAccountInstance.createUniversalTransaction({
-        chainId: CHAIN_ID.BERACHAIN_MAINNET,
+        chainId: CHAIN_ID.ARBITRUM_MAINNET_ONE,
         transactions: [{
           to: CONTRACT_ADDRESS,
           data: contractInterface.encodeFunctionData("mint"),

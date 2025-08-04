@@ -75,7 +75,7 @@ const App = () => {
     setIsLoading(true);
     setTxResult(null);
 
-    const CONTRACT_ADDRESS = "0xA9c7C2BCEd22D1d47111610Af21a53B6D1e69eeD"; // NFT contract on Berachain
+    const CONTRACT_ADDRESS = "0xA9c7C2BCEd22D1d47111610Af21a53B6D1e69eeD"; // NFT contract on Arbitrum
 
     try {
       const contractInterface = new Interface(["function mint() external"]);
@@ -116,14 +116,14 @@ const App = () => {
                 className="h-12 w-12"
               />
               <img
-                src="https://imgs.search.brave.com/Y9vvJZuEnDqsz_n9zWu_62qnHYkje9Uwt8F5CGTmXws/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jcnlw/dG9hc3QuZnIvd3At/Y29udGVudC91cGxv/YWRzLzIwMjQvMDIv/YmVyYWNoYWluLWJl/cmEtbG9nby5wbmc"
-                alt="Berachain Logo"
+                src="https://imgs.search.brave.com/-FBJeqhdu6lfe_nQnYUTvRBT2So_g8ySIq3TBPoPjvc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9yZXMu/Y29pbnBhcGVyLmNv/bS9jb2lucGFwZXIv/Zl93ZWJwLGNfbGlt/aXQsd182NDAscV9h/dXRvOmdvb2QvYXJi/X2ZiYTkyYjI1YmMu/cG5n"
+                alt="Arbitrum Logo"
                 className="h-12 w-12"
               />
             </div>
             <div className="text-center md:text-left">
               <h1 className="text-4xl font-extrabold text-[#C084FC] drop-shadow-lg">
-                Universal Accounts on Berachain
+                Universal Accounts on Arbitrum
               </h1>
               <h2 className="text-2xl font-semibold text-gray-300">Workshop</h2>
             </div>
@@ -213,7 +213,7 @@ const App = () => {
                 </h3>
                 <div className="bg-[#2A2A4A] rounded-lg p-5 border border-[#4A4A6A] shadow-inner flex flex-col items-center gap-4">
                   <p className="text-gray-300 text-sm text-center">
-                    Mint an NFT on Berachain holding tokens anywhere else
+                    Mint an NFT on Arbitrum holding tokens anywhere else
                   </p>
                   <button
                     onClick={mintNftTransaction}
