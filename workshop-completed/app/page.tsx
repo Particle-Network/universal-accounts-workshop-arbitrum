@@ -12,6 +12,7 @@ import {
   UniversalAccount,
   type IAssetsResponse,
   CHAIN_ID,
+  SUPPORTED_TOKEN_TYPE,
 } from "@particle-network/universal-account-sdk";
 import { Interface } from "ethers";
 
@@ -49,7 +50,7 @@ const App = () => {
         tradeConfig: {
           slippageBps: 100, // 1% slippage tolerance
           universalGas: false, // Prioritize PARTI token to pay for gas
-          //usePrimaryTokens: [SUPPORTED_TOKEN_TYPE.SOL], // Specify token to use as source (only for swaps)
+          usePrimaryTokens: [SUPPORTED_TOKEN_TYPE.SOL], // Specify token to use as source (only for swaps)
         },
       });
       console.log("UniversalAccount initialized:", ua);

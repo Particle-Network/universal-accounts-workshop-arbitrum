@@ -7,7 +7,7 @@ This workshop demonstrates how to build a simple decentralized application (dApp
 - Connect to the application.
 - View your Universal Account addresses (EVM and Solana).
 - See your aggregated balance across all supported chains.
-- Mint a `ARBnft` on the Arbitrum testnet with a single click.
+- Mint a `ARBnft` on the Arbitrum mainnet with a single click.
 
 ## How it works
 
